@@ -1,0 +1,35 @@
+# Python 虚拟环境与缓存
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 本地环境与密钥
+.env
+.env.*
+!.env.example
+
+# 数据集压缩包、解压目录与本地缓存
+data/*.tar.gz
+data/*.zip
+data/tmp/
+data/raw*/
+data/iccv09Data/
+
+# 训练过程中的临时日志与平台缓存
+logs/
+swanlog/
+wandb/
+runs/**/events.out.tfevents*
+
+# 大型中间权重与临时 checkpoint；最佳权重文件可按需纳入交付
+checkpoints/*_last.pt
+checkpoints/*_epoch*.pt
+
+# 系统与编辑器文件
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
