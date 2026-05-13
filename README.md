@@ -50,6 +50,12 @@ Linux / Slurm：
 
 每次训练会保存最佳验证集 mIoU 权重，并在 `runs/` 下保存 CSV 指标、曲线图和配置快照。
 
+Slurm 集群训练优先使用 GPU `aws` 分区：
+
+```bash
+sbatch scripts/train_unet_slurm.sh
+```
+
 ## 评估与报告
 
 ```bash
@@ -58,3 +64,9 @@ Linux / Slurm：
 ```
 
 报告会汇总三种损失配置的训练曲线、验证指标、测试指标和可视化预测结果。
+
+Slurm 集群后处理优先使用非 `aws-com` 的 CPU 分区：
+
+```bash
+sbatch scripts/evaluate_report_cpu_slurm.sh
+```
