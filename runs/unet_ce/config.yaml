@@ -1,0 +1,25 @@
+experiment_name: unet_ce
+seed: 42
+data:
+  root: data
+  image_size: [240, 320]
+  train_ratio: 0.7
+  val_ratio: 0.15
+  num_classes: 8
+  ignore_index: 255
+  batch_size: 8
+  num_workers: 2
+train:
+  epochs: 40
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  optimizer: adam
+  loss: ce
+  ce_weight: 1.0
+  dice_weight: 0.0
+  device: auto
+  amp: true
+logging:
+  run_dir: runs/unet_ce
+  checkpoint_path: checkpoints/unet_ce_best.pt
+  use_swanlab: true
