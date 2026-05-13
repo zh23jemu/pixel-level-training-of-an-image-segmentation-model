@@ -1,0 +1,15 @@
+{
+  "checkpoint": "checkpoints/unet_ce_dice_best.pt",
+  "pixel_accuracy": 0.6402837899428007,
+  "mean_iou": 0.41496547323308836,
+  "per_class_iou": {
+    "sky": 0.6683624912206048,
+    "tree": 0.3934562279012446,
+    "road": 0.5704829274697291,
+    "grass": 0.5620722834396583,
+    "water": 0.20565922902387943,
+    "building": 0.5013890649131287,
+    "mountain": 0.037523419262405946,
+    "foreground_object": 0.3807781426340562
+  }
+}

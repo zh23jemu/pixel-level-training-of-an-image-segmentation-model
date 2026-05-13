@@ -1,0 +1,7 @@
+Test pixel accuracy: 0.6545
+Test mIoU: 0.4187
+Test pixel accuracy: 0.6174
+Test mIoU: 0.4022
+Test pixel accuracy: 0.6403
+Test mIoU: 0.4150
+报告已生成：reports/experiment_report.pdf
