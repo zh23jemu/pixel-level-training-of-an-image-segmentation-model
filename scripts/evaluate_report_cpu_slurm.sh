@@ -16,7 +16,9 @@
 
 set -e
 
-ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+# Slurm 可能会把脚本复制到计算节点的 spool 目录后再执行，此时 "$0" 不再指向项目内脚本。
+# 因此优先使用提交作业时的目录，确保评估结果和报告都写回共享项目目录，而不是计算节点本地路径。
+ROOT_DIR="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 PYTHON_BIN="$ROOT_DIR/.venv/bin/python"
 mkdir -p "$ROOT_DIR/logs/slurm"
 
