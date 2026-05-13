@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from src.dataset import StanfordBackgroundDataset, discover_samples
+from src.dataset import StanfordBackgroundDataset, discover_samples, find_dataset_dir
 from src.losses import DiceLoss
 from src.metrics import SegmentationMetrics
 from src.model import UNet
@@ -28,6 +28,14 @@ def test_dataset_reads_image_and_regions_mask(tmp_path: Path) -> None:
     assert image.shape == (3, 8, 10)
     assert mask.shape == (8, 10)
     assert 255 in mask
+
+
+def test_dataset_dir_detection_supports_raw_nested_extract(tmp_path: Path) -> None:
+    """验证脚本解压出的 data/raw/iccv09Data 结构可以被自动识别。"""
+    dataset_root = tmp_path / "raw" / "iccv09Data"
+    (dataset_root / "images").mkdir(parents=True)
+    (dataset_root / "labels").mkdir(parents=True)
+    assert find_dataset_dir(tmp_path) == dataset_root
 
 
 def test_unet_keeps_spatial_shape() -> None:

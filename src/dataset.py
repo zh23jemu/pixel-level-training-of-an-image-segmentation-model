@@ -25,7 +25,10 @@ def find_dataset_dir(root: str | Path) -> Path:
     """定位 Stanford Background Dataset 根目录，兼容直接解压或多包一层目录的情况。"""
     root_path = Path(root)
     candidates = [root_path, root_path / "iccv09Data"]
-    candidates.extend(p for p in root_path.glob("*") if p.is_dir())
+    for child in root_path.glob("*"):
+        if child.is_dir():
+            candidates.append(child)
+            candidates.append(child / "iccv09Data")
     for candidate in candidates:
         if (candidate / "images").exists() and (candidate / "labels").exists():
             return candidate
