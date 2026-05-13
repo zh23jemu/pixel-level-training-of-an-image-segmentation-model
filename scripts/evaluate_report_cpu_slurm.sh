@@ -8,9 +8,8 @@
 #SBATCH --output=logs/slurm/%x-%j.out
 #SBATCH --error=logs/slurm/%x-%j.err
 #SBATCH --partition=defq
+#SBATCH --account=gpo-ifv7xx
 #SBATCH --qos=normal
-# 如果集群要求显式指定账户，请取消下一行注释，并填入 sacctmgr 显示的完整 Account 名称。
-##SBATCH --account=your_account_name
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=02:00:00
