@@ -10,6 +10,7 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
+from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
@@ -24,12 +25,22 @@ from reportlab.platypus import (
 
 
 def register_chinese_font() -> str:
-    """注册常见中文字体，避免 PDF 中中文标题显示为方块。"""
+    """注册中文字体，避免 PDF 中中文标题、正文和表格显示为方块。
+
+    服务器环境不一定安装 Noto CJK 或 Windows 字体；ReportLab 内置的
+    STSong-Light 是可用的中文 CID 字体，适合作为跨平台兜底方案。
+    如果系统安装了更完整的 TrueType/OpenType 中文字体，则优先嵌入这些字体；
+    否则使用 CID 字体，保证中文文本至少可以正常渲染。
+    """
     candidates = [
         Path("C:/Windows/Fonts/msyh.ttc"),
         Path("C:/Windows/Fonts/simsun.ttc"),
+        Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.otf"),
         Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+        Path("/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"),
         Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
+        Path("/usr/share/fonts/truetype/arphic/uming.ttc"),
+        Path("/usr/share/fonts/truetype/arphic/ukai.ttc"),
     ]
     for font_path in candidates:
         if font_path.exists():
@@ -38,6 +49,12 @@ def register_chinese_font() -> str:
                 return "ReportChinese"
             except Exception:
                 continue
+
+    try:
+        pdfmetrics.registerFont(UnicodeCIDFont("STSong-Light"))
+        return "STSong-Light"
+    except Exception:
+        pass
     return "Helvetica"
 
 
@@ -104,6 +121,7 @@ def build_story(results_dir: Path) -> list:
                 ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
                 ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
                 ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("FONTNAME", (0, 0), (-1, -1), font_name),
             ]
         )
     )
